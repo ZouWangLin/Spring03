@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+<!-- 1.设置扫描和不扫描哪些包 
+	   (1)属性resource-pattern:指定扫描哪个包
+	   (2)子标签context:include-filter:用户来设置只扫描哪个包下的类
+	      如果type的值是annotation,那么expression的值是注解的全类名
+	      如果type的值是assignable,那么expression的值是接口或者实现类的全类名
+	      如果想通过子标签context:include-filter来指定只扫描哪个包下的类，必须
+	      设置context:component-scan的use-default-filters的属性为   false
+	   (3)context:exclude-filter:用来设置不扫描哪个包的下类
+-->
+<!-- 设置扫描cn.itheima.entity.Student这个实体类 -->
+<!-- <context:component-scan base-package="cn.itheima" use-default-filters="false">
+	<context:exclude-filter type="annotation" expression="cn.itheima.entity.Student"/>
+</context:component-scan> -->
+
+<context:component-scan base-package="cn.itheima"/>
+
+
+<!-- 2.泛型依赖注入spring4.x提供的 
+	详解:（1）我们创建BaseDao<T>类，又创建了BaseService<T>
+		（2）我们在BaseService<T>中注入BaseDao<T>
+		（3）我们创建一个类StudentService继承BaseService,我们又创建了一个类StudentDao继承BaseDao，并将创建的对象注入IOC容器中
+		（4）这样一来我们发现StudentDao自动注入到了StudentService中
+-->
+
+<!-- 3.手写一个代理动态代理:jdk代理，cglib代理
+	详解：（1）代理实现具体看cn.itheima.proxy包下的MyProxy类
+ -->
+
+
+<!-- 4.使用spring中的 aop实现代理（基于注解）
+		实现过程:（1）定义一个类，在此类上加上@Aspectj注解，声明这是一个切面类，还需要将它加入IOC容器中
+			       （2）给自定义类的方法添加@Before和@After注解，设置对应的切入点
+			       （3）将需要代理的类加入IOC容器中
+			       （4）这样我们就直接从IOC容器中获取需要的对象
+ -->
+<!-- 开启aspectj注解支持 -->
+<aop:aspectj-autoproxy/>
+
+
+
+
+
+
+
+
+
+	
+</beans>

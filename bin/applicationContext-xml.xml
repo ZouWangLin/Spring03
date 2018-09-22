@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+<!-- 5.基于xml的aop配置（基于xml） -->
+
+<!-- 1.实例化切面类 -->
+<bean class="cn.itheima.aop.SpringAop" id="springAop"></bean>
+
+<!-- 2.基于xml的配置AOP -->
+<aop:config>
+	<!-- 设置切入点 -->
+	<aop:pointcut expression="execution(* cn.itheima.dao.impl.UserDaoImpl.*(..))" id="pointcut"/>
+	<!-- 配置切面 -->
+	<aop:aspect ref="springAop">
+		<aop:before method="before" pointcut-ref="pointcut"/>
+	</aop:aspect>
+</aop:config>
+
+<!-- 3.创建要被代理的类实例 -->
+<bean class="cn.itheima.dao.impl.UserDaoImpl" id="userDao"></bean>
+
+</beans>
